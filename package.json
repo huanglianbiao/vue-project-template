@@ -10,9 +10,8 @@
     "prettier": "prettier --write \"{**/*,*}.{js,vue,less}\""
   },
   "lint-staged": {
-    "**/**.{js,vue,less}": [
-      "eslint --fix --ext .js",
-      "prettier --write",
+    "*": [
+      "yarn prettier",
       "git add"
     ]
   },
