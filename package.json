@@ -11,7 +11,9 @@
   },
   "lint-staged": {
     "**/**.{js,vue,less}": [
-      "npm run prettier"
+      "eslint --fix --ext .js",
+      "prettier --write",
+      "git add"
     ]
   },
   "husky": {
