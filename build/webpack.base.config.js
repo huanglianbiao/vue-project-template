@@ -4,11 +4,24 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 // const { VueLoaderPlugin } = require("vue-loader")
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const entryPath = path.resolve(__dirname, "../src/index.js");
 const indexHtmlPath = path.resolve(__dirname, "../index.html");
 const srcPath = path.resolve(__dirname, "../src");
+const componentsPath = path.resolve(__dirname, "../src/components");
+const viewsPath = path.resolve(__dirname, "../src/views");
+const utilsPath = path.resolve(__dirname, "../src/utils");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: entryPath,
+  resolve: {
+    extensions: [".js", ".vue"],
+    modules: ["node_modules"],
+    alias: {
+      "@components": componentsPath,
+      "@views": viewsPath,
+      "@utils": utilsPath
+    }
+  },
   module: {
     rules: [
       {
