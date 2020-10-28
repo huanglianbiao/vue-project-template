@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const { merge } = require("webpack-merge");
 const path = require("path");
+const apiMocker = require("mocker-api");
 
 const common = require("./build/webpack.base.config");
 const outputPath = path.resolve(__dirname, "dist");
@@ -18,6 +19,11 @@ module.exports = merge(common, {
     host: "0.0.0.0",
     quiet: true,
     historyApiFallback: true, // 当vue-router为history模式时，设置为true
+    before(app) {
+      apiMocker(app, path.resolve("./mock/index.js"), {
+        changeHost: true
+      });
+    },
     proxy: {}
   },
   module: {
