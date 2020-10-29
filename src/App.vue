@@ -12,9 +12,6 @@ export default {
 
 <style lang="less" scoped>
 #app {
-  .main {
-    font-weight: bold;
-    color: blueviolet;
-  }
+  height: 100vh;
 }
 </style>

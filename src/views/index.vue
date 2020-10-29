@@ -1,10 +1,15 @@
 <template>
-  <div class="main">
-    hello vue.
-    <div class="footer">
-      footer
-      <a-icon type="qq"></a-icon>
-    </div>
+  <div ref="main" class="main">
+    <a-list :data-source="list" item-layout="horizontal">
+      <a-list-item slot="renderItem" slot-scope="item, index">
+        <a-list-item-meta
+          description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+        >
+          <div slot="title">{{ item.name }}</div>
+          <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+        </a-list-item-meta>
+      </a-list-item>
+    </a-list>
   </div>
 </template>
 
@@ -14,6 +19,11 @@ import PubSub, { TopicsEnum } from "@utils/PubSub";
 
 export default {
   name: "index",
+  data() {
+    return {
+      list: []
+    };
+  },
   computed: {
     ...mapState({
       homeData: state => state.home.homeData
@@ -34,7 +44,10 @@ export default {
     test() {
       const obj = { a: 1, b: 2 };
       console.log(obj?.a, 2 ** 3);
-      this.getHomeData().then(({ data }) => {
+      this.getHomeData({
+        loadingTarget: this.$refs.main
+      }).then(data => {
+        this.list = data;
         console.log(data);
         console.log(this.homeData);
 
@@ -45,4 +58,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.main {
+  padding: 20px;
+  height: 100%;
+  background-color: #eee;
+}
+</style>

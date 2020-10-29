@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { Notification } from "ant-design-vue";
+import { Loading } from "element-ui";
 import { INTERNAL_SERVER_ERROR } from "http-status-codes";
 
 const HTTP_SUCCESS_CODE = "0";
@@ -63,25 +64,74 @@ function message(msg) {
   });
 }
 
-const request = ({ config, success, error }) => {
-  return Axios(config).then(
-    response => {
-      if (success) {
-        Notification.success(success);
+let loadingInstance;
+
+const startLoading = target => {
+  loadingInstance = Loading.service({
+    target: target || document.body,
+    lock: true
+  });
+};
+
+const endLoading = () => {
+  loadingInstance?.close();
+};
+
+// 预设超时时长
+const timeout = ms => new Promise((_, reject) => setTimeout(() => reject(Symbol.for("timeout")), ms));
+
+// 防止loading过程一闪而过
+const delay = ms => new Promise(resolve => setTimeout(() => resolve(), ms));
+
+const handleSuccess = data => {
+  const response = Array.isArray(data) ? data[0] : data;
+  return Promise.resolve(response.data);
+};
+
+const handleError = err => {
+  return Promise.reject(err);
+};
+
+const timeoutAndDelay = ({ promise, timeoutTime = 300, delayTime = 500, loadingTarget }) => {
+  return Promise.race([promise, timeout(timeoutTime)])
+    .then(handleSuccess)
+    .catch(err => {
+      if (err === Symbol.for("timeout")) {
+        startLoading(loadingTarget);
+        return Promise.all([promise, delay(delayTime)])
+          .then(handleSuccess)
+          .catch(handleError)
+          .finally(() => {
+            endLoading();
+          });
       }
-      return Promise.resolve(response);
-    },
-    ({ response }) => {
-      if (error) {
-        const errorMessage = error;
-        if (response.data.msg) {
-          errorMessage.message = response.data.msg;
+
+      return handleError(err);
+    });
+};
+
+const request = ({ config, success, error, loadingTarget }) => {
+  return timeoutAndDelay({
+    loadingTarget,
+    promise: Axios(config).then(
+      response => {
+        if (success) {
+          Notification.success(success);
         }
-        Notification.error(errorMessage);
+        return Promise.resolve(response);
+      },
+      ({ response }) => {
+        if (error) {
+          const errorMessage = error;
+          if (response.data.msg) {
+            errorMessage.message = response.data.msg;
+          }
+          Notification.error(errorMessage);
+        }
+        return Promise.reject(response);
       }
-      return Promise.reject(response);
-    }
-  );
+    )
+  });
 };
 
 export default request;

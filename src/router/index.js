@@ -8,7 +8,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: () => import("@views/index")
+      component: () => import(/* webpackChunkName: "route-index" */ "@views/index")
     }
   ]
 });
