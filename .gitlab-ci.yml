@@ -1,0 +1,39 @@
+stages:
+  - deploy
+  - notification
+
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    #    - shell/
+    - node_modules/
+    - dist-DA/
+
+deploy_job:
+  stage: deploy
+  only:
+    - test
+  script:
+    - echo '部署项目'
+    #    - chmod -R 777 shell/
+    - ./shell/deploy.sh "username" "host" "deployPath"
+  environment:
+    name: develop
+    url: http://host:port
+
+# 企业微信通知
+success_notification_job:
+  stage: notification
+  only:
+    - develop
+  script:
+    - sh ./shell/wx_robot_notification.sh "on_success"
+  when: on_success
+
+failure_notification_job:
+  stage: notification
+  only:
+    - develop
+  script:
+    - sh ./shell/wx_robot_notification.sh "on_failure"
+  when: on_failure
