@@ -1,27 +1,54 @@
 <template>
   <div ref="main" class="main">
-    <a-list :data-source="list" item-layout="horizontal">
-      <a-list-item slot="renderItem" slot-scope="item, index">
-        <a-list-item-meta
-          description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-        >
-          <div slot="title">{{ item.name }}</div>
-          <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        </a-list-item-meta>
-      </a-list-item>
-    </a-list>
+    <div ref="container" style="height: 500px">
+      <h3>前端筛选、排序、分页</h3>
+      <XTable :remote="false" :multiple="false" :table-list="list" :columns="columns"></XTable>
+    </div>
+
+    <div ref="container2" style="height: 500px">
+      <h3>后端筛选、排序、分页</h3>
+      <XTable
+          :remote="true"
+          :multiple="false"
+          :fetch="getList"
+          :columns="columns"
+          :fetch-column="getColumnData"
+      ></XTable>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import PubSub, { TopicsEnum } from "@utils/PubSub";
+import PubSub, {TopicsEnum} from '@utils/PubSub';
+import XTable from '@components/XTable';
 
 export default {
-  name: "index",
+  name: 'index',
+  components: {XTable},
   data() {
     return {
-      list: []
+      list: [],
+      columns: [
+        {
+          title: '名称',
+          field: 'name',
+          filterType: 'item',
+          sortable: true
+        },
+        {
+          title: '年龄',
+          field: 'age',
+          filterType: 'item',
+          sortable: true
+        },
+        {
+          title: '时间',
+          field: 'time',
+          filterType: 'item',
+          sortable: true
+        }
+      ]
     };
   },
   computed: {
@@ -40,18 +67,34 @@ export default {
     });
   },
   methods: {
-    ...mapActions("home", ["getHomeData"]),
+    ...mapActions('home', ['getHomeData', 'queryList']),
     test() {
-      const obj = { a: 1, b: 2 };
+      const obj = {a: 1, b: 2};
       console.log(obj?.a, 2 ** 3);
       this.getHomeData({
-        loadingTarget: this.$refs.main
+        loadingTarget: this.$refs.container
       }).then(data => {
         this.list = data;
         console.log(data);
         console.log(this.homeData);
 
         PubSub.$emit(TopicsEnum.test, data);
+      });
+    },
+    getList({pageStart, pageSize, searchKey, searchValue, ascOrDesc, orderBy}) {
+      return this.queryList({
+        pageStart,
+        pageSize,
+        searchKey,
+        searchValue,
+        ascOrDesc,
+        orderBy
+      });
+    },
+    getColumnData({searchKey, searchValue}) {
+      console.log(searchKey, searchValue);
+      return new Promise(resolve => {
+        resolve([1, 2, 3, 4, 5]);
       });
     }
   }

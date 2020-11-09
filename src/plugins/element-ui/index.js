@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import './theme/index.css';
-// import ElementUI from "element-ui";
+import {Input, Popover, Button} from 'element-ui';
 
-// Vue.use(ElementUI);
+Vue.use(Input);
+Vue.use(Popover);
+Vue.use(Button);

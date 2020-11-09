@@ -101,12 +101,12 @@ const timeoutAndDelay = ({promise, timeoutTime = 300, delayTime = 500, loadingTa
     .then(handleSuccess)
     .catch(err => {
       if (err === Symbol.for('timeout')) {
-        startLoading(loadingTarget);
+        loadingTarget && startLoading(loadingTarget);
         return Promise.all([promise, delay(delayTime)])
           .then(handleSuccess)
           .catch(handleError)
           .finally(() => {
-            endLoading();
+            loadingTarget && endLoading();
           });
       }
       return handleError(err);

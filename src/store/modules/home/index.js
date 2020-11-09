@@ -23,6 +23,18 @@ const home = {
       });
       commit('setData', data);
       return data;
+    },
+    async queryList({commit}, params) {
+      const {data} = await request({
+        config: {
+          method: 'POST',
+          url: '/web/test/query-list',
+          data: params
+        },
+        success: {message: '获取成功'},
+        error: {message: '查询失败'}
+      });
+      return data;
     }
   }
 };
