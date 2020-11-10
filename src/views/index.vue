@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapState} from 'vuex';
 import PubSub, {TopicsEnum} from '@utils/PubSub';
 import XTable from '@components/XTable';
 

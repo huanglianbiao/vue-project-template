@@ -349,7 +349,6 @@ export default {
       .vxe-cell {
         display: flex;
         align-items: center;
-        //justify-content: center;  // 去除，影响表头的align
         .vxe-cell--sort {
           display: flex;
           flex-direction: column;
