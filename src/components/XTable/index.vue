@@ -1,67 +1,67 @@
 <template>
   <vxe-grid
-      class="hs-remote-table"
-      size="small"
-      height="auto"
-      border
-      resizable
-      stripe
-      auto-resize
-      highlight-hover-row
-      show-header-overflow="ellipsis"
-      show-overflow
-      :data="tableData"
-      :loading="false"
-      :seq-config="{ startIndex: (tablePage.currentPage - 1) * tablePage.pageSize }"
-      :pager-config="tablePage"
-      :sort-config="{
+    class="hs-remote-table"
+    size="small"
+    height="auto"
+    border
+    resizable
+    stripe
+    auto-resize
+    highlight-hover-row
+    show-header-overflow="ellipsis"
+    show-overflow
+    :data="tableData"
+    :loading="false"
+    :seq-config="{ startIndex: (tablePage.currentPage - 1) * tablePage.pageSize }"
+    :pager-config="tablePage"
+    :sort-config="{
       remote: remote,
       defaultSort: {
         field: defaultOrderField,
         order: defaultOrderBy
       }
     }"
-      :filter-config="{
+    :filter-config="{
       remote: remote
     }"
-      v-bind="tableProps"
-      @sort-change="handleSortChange"
-      @page-change="handlePageChange"
-      @checkbox-all="selectAllEvent"
-      @checkbox-change="selectChangeEvent"
+    v-bind="tableProps"
+    @sort-change="handleSortChange"
+    @page-change="handlePageChange"
+    @checkbox-all="selectAllEvent"
+    @checkbox-change="selectChangeEvent"
   >
-    <vxe-table-column v-if="multiple" type="checkbox" width="60" fixed="left"/>
+    <vxe-table-column v-if="multiple" type="checkbox" width="60" fixed="left" />
     <vxe-table-column
-        v-for="(column, index) in columns"
-        :key="index"
-        v-bind="column"
-        :formatter="column.formatter ? column.formatter : defaultFormatter"
+      v-for="(column, index) in columns"
+      :key="index"
+      v-bind="column"
+      :formatter="column.formatter ? column.formatter : defaultFormatter"
     >
       <template v-slot:header>
         <span>{{ column.title }}</span>
         <ItemFilter
-            v-if="column.filterType === 'item'"
-            :filter-list="getFilterValue(column.field)"
-            :column="column"
-            :fetch="fetchField"
-            @change="handleFilter"
-            @clear-item="clearFilter"
+          v-if="column.filterType === 'item'"
+          :filter-list="getFilterValue(column.field)"
+          :column="column"
+          :fetch="fetchField"
+          @change="handleFilter"
+          @clear-item="clearFilter"
         />
       </template>
       <template v-if="column.slotName" v-slot="{ row }">
-        <slot :name="column.slotName" v-bind:row="row"/>
+        <slot :name="column.slotName" v-bind:row="row" />
       </template>
     </vxe-table-column>
   </vxe-grid>
 </template>
 
 <script>
-import ItemFilter from './ItemFilter';
-import {toLine, defaultPage, makePageSizes, validateValue, geCharCode} from './utils';
-import {cloneDeep} from 'lodash';
+import ItemFilter from "./ItemFilter";
+import { toLine, defaultPage, makePageSizes, validateValue, geCharCode } from "./utils";
+import { cloneDeep } from "lodash";
 
 export default {
-  name: 'XTable',
+  name: "XTable",
   components: {
     ItemFilter
   },
@@ -76,11 +76,11 @@ export default {
     },
     defaultOrderField: {
       type: String,
-      default: ''
+      default: ""
     },
     defaultOrderBy: {
       type: String,
-      default: ''
+      default: ""
     },
     defaultSearchKey: {
       type: Array,
@@ -98,7 +98,7 @@ export default {
       type: Object,
       default() {
         return {
-          align: 'center'
+          align: "center"
         };
       }
     },
@@ -128,7 +128,7 @@ export default {
     },
     fieldType: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
@@ -139,10 +139,10 @@ export default {
         total: defaultPage.total,
         currentPage: defaultPage.pageStart,
         pageSize: defaultPage.pageSize,
-        align: 'center',
+        align: "center",
         pageSizes: makePageSizes(),
-        layouts: ['Total', 'PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'FullJump', 'Sizes'],
-        size: 'small'
+        layouts: ["Total", "PrevJump", "PrevPage", "Number", "NextPage", "NextJump", "FullJump", "Sizes"],
+        size: "small"
       },
       checked: [],
       searchKey: this.defaultSearchKey,
@@ -164,18 +164,18 @@ export default {
   },
   methods: {
     getQueryParams(params = {}) {
-      const {currentPage: pageStart, pageSize} = this.tablePage;
-      const {searchKey, searchValue, ascOrDesc, orderBy} = this;
+      const { currentPage: pageStart, pageSize } = this.tablePage;
+      const { searchKey, searchValue, ascOrDesc, orderBy } = this;
       return Object.assign(
-          {
-            pageStart,
-            pageSize,
-            searchKey,
-            searchValue,
-            ascOrDesc,
-            orderBy
-          },
-          params
+        {
+          pageStart,
+          pageSize,
+          searchKey,
+          searchValue,
+          ascOrDesc,
+          orderBy
+        },
+        params
       );
     },
     fetchData(params) {
@@ -185,17 +185,17 @@ export default {
         return this.getLocalList(newParams);
       }
       return this.fetch(newParams)
-          .then(({list, total}) => {
-            this.tableData = list;
-            this.tablePage.total = total;
-            this.checked = [];
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+        .then(({ list, total }) => {
+          this.tableData = list;
+          this.tablePage.total = total;
+          this.checked = [];
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     fetchField(key) {
-      const {ascOrDesc, orderBy} = this;
+      const { ascOrDesc, orderBy } = this;
       const searchKey = cloneDeep(this.searchKey);
       const searchValue = cloneDeep(this.searchValue);
 
@@ -210,7 +210,7 @@ export default {
       searchKey.unshift(key);
       searchValue.unshift([]);
 
-      const newParams = {ascOrDesc, orderBy, searchKey, searchValue};
+      const newParams = { ascOrDesc, orderBy, searchKey, searchValue };
 
       if (!this.remote) {
         return this.getLocalFilterList(newParams);
@@ -218,12 +218,12 @@ export default {
 
       return this.fetchColumn(newParams);
     },
-    handleSortChange({column, property, order}) {
+    handleSortChange({ column, property, order }) {
       this.ascOrDesc = order;
-      this.orderBy = order ? property : '';
+      this.orderBy = order ? property : "";
       return this.fetchData();
     },
-    handlePageChange({currentPage, pageSize}) {
+    handlePageChange({ currentPage, pageSize }) {
       this.tablePage.currentPage = currentPage;
       this.tablePage.pageSize = pageSize;
       this.fetchData();
@@ -245,10 +245,10 @@ export default {
       }
       return this.searchValue[index];
     },
-    selectAllEvent({checked, records}) {
+    selectAllEvent({ checked, records }) {
       this.checked = records;
     },
-    selectChangeEvent({checked, records}) {
+    selectChangeEvent({ checked, records }) {
       this.checked = records;
     },
     getLocalList(newParams) {
@@ -265,7 +265,7 @@ export default {
       this.checked = [];
       this.loading = false;
     },
-    filterLocalTableData({searchKey = [], searchValue = []}) {
+    filterLocalTableData({ searchKey = [], searchValue = [] }) {
       let filterList = cloneDeep(this.tableList);
 
       searchKey.forEach((key, index) => {
@@ -278,18 +278,18 @@ export default {
     handleFilterList(list, fn) {
       return list.filter(item => fn(item));
     },
-    getPaginationData({pageStart = 1, pageSize}) {
+    getPaginationData({ pageStart = 1, pageSize }) {
       const start = (pageStart - 1) * pageSize;
       const cloneList = cloneDeep(this.localFilterAllList);
       return cloneList.splice(start, pageSize);
     },
-    getLocalFilterList({searchKey = [], searchValue = []}) {
+    getLocalFilterList({ searchKey = [], searchValue = [] }) {
       const field = searchKey.shift();
       searchValue.shift();
 
       return new Promise(resolve => {
         const list = [];
-        this.filterLocalTableData({searchKey, searchValue}).forEach(item => {
+        this.filterLocalTableData({ searchKey, searchValue }).forEach(item => {
           if (validateValue(item[field]) && !list.includes(item[field])) {
             list.push(item[field]);
           }
@@ -297,7 +297,7 @@ export default {
         resolve(list);
       });
     },
-    localTableSort({orderBy, ascOrDesc}) {
+    localTableSort({ orderBy, ascOrDesc }) {
       // ascOrDesc为null时
       if (!ascOrDesc) {
         return;
@@ -305,7 +305,7 @@ export default {
       this.localFilterAllList.sort((prev, next) => {
         const prevCode = geCharCode(prev[orderBy]);
         const nextCode = geCharCode(next[orderBy]);
-        if (ascOrDesc === 'desc') {
+        if (ascOrDesc === "desc") {
           return nextCode - prevCode;
         } else {
           return prevCode - nextCode;
@@ -332,9 +332,9 @@ export default {
         this.fetchData();
       }
     },
-    defaultFormatter({cellValue}) {
+    defaultFormatter({ cellValue }) {
       if (!validateValue(cellValue)) {
-        return '--';
+        return "--";
       }
       return cellValue;
     }

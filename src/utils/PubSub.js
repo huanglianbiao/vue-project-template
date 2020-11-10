@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 
 export default new Vue();
 
@@ -10,4 +10,4 @@ for (let key in TopicsEnum) {
   TopicsEnum[key] = TopicsEnum[key].toString();
 }
 
-export {TopicsEnum};
+export { TopicsEnum };

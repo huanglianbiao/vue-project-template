@@ -1,9 +1,9 @@
 // 驼峰转换下划线
 const toLine = name => {
-  return name.replace(/([A-Z])/g, '_$1').toLowerCase();
+  return name.replace(/([A-Z])/g, "_$1").toLowerCase();
 };
 
-const defaultPage = {list: [], pageStart: 1, pageSize: 20, total: 0};
+const defaultPage = { list: [], pageStart: 1, pageSize: 20, total: 0 };
 
 const makePageSizes = () => {
   return [
@@ -16,7 +16,7 @@ const makePageSizes = () => {
 };
 
 const validateValue = value => {
-  if (typeof value === 'number' || typeof value === 'boolean') {
+  if (typeof value === "number" || typeof value === "boolean") {
     return true;
   }
 
@@ -25,7 +25,7 @@ const validateValue = value => {
 
 // 获取字符串的ASCII码
 const geCharCode = str => {
-  if (typeof str === 'number') {
+  if (typeof str === "number") {
     return str;
   }
   let count = 0;
@@ -40,4 +40,4 @@ const geCharCode = str => {
   return count;
 };
 
-export {toLine, defaultPage, makePageSizes, validateValue, geCharCode};
+export { toLine, defaultPage, makePageSizes, validateValue, geCharCode };

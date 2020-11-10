@@ -8,7 +8,7 @@ const MinCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const outputPath = path.resolve(__dirname, '../dist-DA');
+const outputPath = path.resolve(__dirname, "../dist-DA");
 
 module.exports = merge(common, {
   mode: "production",

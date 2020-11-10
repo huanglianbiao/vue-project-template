@@ -3,13 +3,13 @@ module.exports = {
     browser: true,
     es2020: true
   },
-  extends: ['eslint:recommended', 'plugin:vue/essential', 'plugin:prettier/recommended'],
+  extends: ["eslint:recommended", "plugin:vue/essential", "plugin:prettier/recommended"],
   parserOptions: {
     ecmaVersion: 11,
-    sourceType: 'module'
+    sourceType: "module"
   },
-  plugins: ['vue', 'prettier'],
+  plugins: ["vue", "prettier"],
   rules: {
-    'prettier/prettier': ['error', {}]
+    "prettier/prettier": ["error", {}]
   }
 };

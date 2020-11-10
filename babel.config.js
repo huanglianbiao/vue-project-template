@@ -2,16 +2,16 @@ module.exports = function(api) {
   const presets = [["@babel/preset-env", { useBuiltIns: "usage", corejs: 3 }]];
   const plugins = [
     [
-      'component',
+      "component",
       {
-        libraryName: 'element-ui',
-        styleLibraryName: 'theme-chalk'
+        libraryName: "element-ui",
+        styleLibraryName: "theme-chalk"
       }
     ],
     [
-      'import',
+      "import",
       {
-        libraryName: 'ant-design-vue',
+        libraryName: "ant-design-vue",
         style: true
       }
     ]

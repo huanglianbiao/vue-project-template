@@ -1,10 +1,10 @@
-import Axios from 'axios';
-import {Notification} from 'ant-design-vue';
-import {Loading} from 'element-ui';
-import {INTERNAL_SERVER_ERROR} from 'http-status-codes';
+import Axios from "axios";
+import { Notification } from "ant-design-vue";
+import { Loading } from "element-ui";
+import { INTERNAL_SERVER_ERROR } from "http-status-codes";
 
-const HTTP_SUCCESS_CODE = '0';
-const API_BASE_URL = '';
+const HTTP_SUCCESS_CODE = "0";
+const API_BASE_URL = "";
 
 Axios.defaults.baseURL = API_BASE_URL;
 // 设置接口超时时间
@@ -12,7 +12,7 @@ Axios.defaults.baseURL = API_BASE_URL;
 Axios.defaults.withCredentials = false;
 
 // 设置post请求请求头
-Axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+Axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 
 // 添加请求拦截器
 Axios.interceptors.request.use(
@@ -34,7 +34,7 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   response => {
     const {
-      data: {code}
+      data: { code }
     } = response;
     if (code !== HTTP_SUCCESS_CODE) {
       return Promise.reject(response);
@@ -47,12 +47,12 @@ Axios.interceptors.response.use(
       const status = error.response.status;
       switch (status) {
         case INTERNAL_SERVER_ERROR: {
-          message('服务器内部错误，请联系管理员');
+          message("服务器内部错误，请联系管理员");
           break;
         }
         default: {
           if (error?.response?.data?.message) {
-            message('error', error.response.data.message);
+            message("error", error.response.data.message);
           }
         }
       }
@@ -64,7 +64,7 @@ Axios.interceptors.response.use(
 function message(msg) {
   Notification({
     message: msg,
-    type: 'error'
+    type: "error"
   });
 }
 
@@ -82,7 +82,7 @@ const endLoading = () => {
 };
 
 // 预设超时时长
-const timeout = ms => new Promise((_, reject) => setTimeout(() => reject(Symbol.for('timeout')), ms));
+const timeout = ms => new Promise((_, reject) => setTimeout(() => reject(Symbol.for("timeout")), ms));
 
 // 防止loading过程太短一闪而过
 const delay = ms => new Promise(resolve => setTimeout(() => resolve(), ms));
@@ -96,11 +96,11 @@ const handleError = err => {
   return Promise.reject(err);
 };
 
-const timeoutAndDelay = ({promise, timeoutTime = 300, delayTime = 500, loadingTarget}) => {
+const timeoutAndDelay = ({ promise, timeoutTime = 300, delayTime = 500, loadingTarget }) => {
   return Promise.race([promise, timeout(timeoutTime)])
     .then(handleSuccess)
     .catch(err => {
-      if (err === Symbol.for('timeout')) {
+      if (err === Symbol.for("timeout")) {
         loadingTarget && startLoading(loadingTarget);
         return Promise.all([promise, delay(delayTime)])
           .then(handleSuccess)
@@ -113,7 +113,7 @@ const timeoutAndDelay = ({promise, timeoutTime = 300, delayTime = 500, loadingTa
     });
 };
 
-const request = ({config, success, error, loadingTarget}) => {
+const request = ({ config, success, error, loadingTarget }) => {
   return timeoutAndDelay({
     loadingTarget,
     promise: Axios(config).then(
@@ -123,7 +123,7 @@ const request = ({config, success, error, loadingTarget}) => {
         }
         return Promise.resolve(response);
       },
-      ({response}) => {
+      ({ response }) => {
         if (error) {
           const errorMessage = error;
           if (response.data.msg) {

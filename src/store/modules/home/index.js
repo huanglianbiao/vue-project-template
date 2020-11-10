@@ -1,4 +1,4 @@
-import request from '@utils/request';
+import request from "@utils/request";
 
 const home = {
   namespaced: true,
@@ -11,28 +11,28 @@ const home = {
     }
   },
   actions: {
-    async getHomeData({commit}, {loadingTarget}) {
-      const {data} = await request({
+    async getHomeData({ commit }, { loadingTarget }) {
+      const { data } = await request({
         config: {
-          method: 'GET',
-          url: '/web/test/get-data'
+          method: "GET",
+          url: "/web/test/get-data"
         },
-        success: {message: '获取成功'},
-        error: {message: '查询失败'},
+        success: { message: "获取成功" },
+        error: { message: "查询失败" },
         loadingTarget
       });
-      commit('setData', data);
+      commit("setData", data);
       return data;
     },
-    async queryList({commit}, params) {
-      const {data} = await request({
+    async queryList({ commit }, params) {
+      const { data } = await request({
         config: {
-          method: 'POST',
-          url: '/web/test/query-list',
+          method: "POST",
+          url: "/web/test/query-list",
           data: params
         },
-        success: {message: '获取成功'},
-        error: {message: '查询失败'}
+        success: { message: "获取成功" },
+        error: { message: "查询失败" }
       });
       return data;
     }

@@ -3,29 +3,29 @@
     <div class="hs-table-filter-wrapper">
       <el-input size="mini" v-model="input" prefix-icon="el-icon-search" placeholder="请输入内容" clearable></el-input>
       <vxe-table
-          ref="table"
-          size="mini"
-          border
-          resizable
-          stripe
-          align="center"
-          show-overflow
-          highlight-hover-row
-          auto-resize
-          column-width="auto"
-          max-height="55%"
-          :data="data"
-          :loading="false"
-          :checkbox-config="{ trigger: 'row' }"
-          @checkbox-all="selectAllEvent"
-          @checkbox-change="selectChangeEvent"
-          @header-cell-click="headCellClick"
-          :cell-style="{ cursor: 'pointer', 'user-select': 'none' }"
-          :header-cell-style="{ cursor: 'pointer', 'user-select': 'none' }"
+        ref="table"
+        size="mini"
+        border
+        resizable
+        stripe
+        align="center"
+        show-overflow
+        highlight-hover-row
+        auto-resize
+        column-width="auto"
+        max-height="55%"
+        :data="data"
+        :loading="false"
+        :checkbox-config="{ trigger: 'row' }"
+        @checkbox-all="selectAllEvent"
+        @checkbox-change="selectChangeEvent"
+        @header-cell-click="headCellClick"
+        :cell-style="{ cursor: 'pointer', 'user-select': 'none' }"
+        :header-cell-style="{ cursor: 'pointer', 'user-select': 'none' }"
       >
         >
-        <vxe-table-column type="checkbox" width="35"/>
-        <vxe-table-column field="field" title="全选" show-overflow :formatter="column.formatter"/>
+        <vxe-table-column type="checkbox" width="35" />
+        <vxe-table-column field="field" title="全选" show-overflow :formatter="column.formatter" />
       </vxe-table>
       <div class="hs-table-filter-footer">
         <el-button size="mini" @click="handleCancel">清空</el-button>
@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import {debounce} from 'lodash';
+import { debounce } from "lodash";
 
 export default {
-  name: 'ItemFilter',
+  name: "ItemFilter",
   props: {
     fetch: {
       type: Function,
@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      input: '',
+      input: "",
       data: [],
       allData: [],
       checked: [],
@@ -91,61 +91,61 @@ export default {
     handleShow() {
       this.loading = true;
       this.fetch(this.column.field)
-          .then(data => {
-            this.data = data.map(item => ({
-              field: item
-            }));
-            this.allData = this.data;
-            this.$nextTick().then(() => {
-              const checkRowKeys = this.data.filter(({field}) => this.filterList.includes(field));
-              this.$refs.table.setCheckboxRow(checkRowKeys, true);
-              this.checked = checkRowKeys;
-              // if (this.filterList.length === 0) {
-              //   this.$refs.table.setAllCheckboxRow(true);
-              // } else {
-              //   const checkRowKeys = this.data.filter(({ field }) => this.filterList.includes(field));
-              //   this.$refs.table.setCheckboxRow(checkRowKeys, true);
-              // }
-            });
-          })
-          .finally(() => {
-            this.loading = false;
+        .then(data => {
+          this.data = data.map(item => ({
+            field: item
+          }));
+          this.allData = this.data;
+          this.$nextTick().then(() => {
+            const checkRowKeys = this.data.filter(({ field }) => this.filterList.includes(field));
+            this.$refs.table.setCheckboxRow(checkRowKeys, true);
+            this.checked = checkRowKeys;
+            // if (this.filterList.length === 0) {
+            //   this.$refs.table.setAllCheckboxRow(true);
+            // } else {
+            //   const checkRowKeys = this.data.filter(({ field }) => this.filterList.includes(field));
+            //   this.$refs.table.setCheckboxRow(checkRowKeys, true);
+            // }
           });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     handleHide() {
-      this.input = '';
+      this.input = "";
       this.allData = [];
       this.data = [];
       this.checked = [];
     },
-    selectAllEvent({checked, records}) {
+    selectAllEvent({ checked, records }) {
       this.checked = records;
     },
-    selectChangeEvent({checked, records}) {
+    selectChangeEvent({ checked, records }) {
       this.checked = records;
     },
     handleOK() {
       this.$emit(
-          'change',
-          this.column.field,
-          this.checked.map(({field}) => field)
+        "change",
+        this.column.field,
+        this.checked.map(({ field }) => field)
       );
       this.visible = false;
     },
     handleCancel() {
-      this.$emit('clear-item', this.column.field);
+      this.$emit("clear-item", this.column.field);
       this.visible = false;
     },
     handleSearchChange(value) {
       this.data = this.allData.filter(item => {
-        let formatterValue = '';
+        let formatterValue = "";
         if (this.column.formatter) {
-          formatterValue = this.column.formatter({cellValue: item.field});
+          formatterValue = this.column.formatter({ cellValue: item.field });
         }
         return item.field?.toString().includes(value) || formatterValue?.toString().includes(value);
       });
     },
-    headCellClick({$columnIndex, triggerSort}) {
+    headCellClick({ $columnIndex, triggerSort }) {
       if ($columnIndex === 1 && !triggerSort) {
         this.$refs?.table?.toggleAllCheckboxRow();
       }

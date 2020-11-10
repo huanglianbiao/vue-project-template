@@ -8,44 +8,44 @@
     <div ref="container2" style="height: 500px">
       <h3>后端筛选、排序、分页</h3>
       <XTable
-          :remote="true"
-          :multiple="false"
-          :fetch="getList"
-          :columns="columns"
-          :fetch-column="getColumnData"
+        :remote="true"
+        :multiple="false"
+        :fetch="getList"
+        :columns="columns"
+        :fetch-column="getColumnData"
       ></XTable>
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
-import PubSub, {TopicsEnum} from '@utils/PubSub';
-import XTable from '@components/XTable';
+import { mapActions, mapState } from "vuex";
+import PubSub, { TopicsEnum } from "@utils/PubSub";
+import XTable from "@components/XTable";
 
 export default {
-  name: 'index',
-  components: {XTable},
+  name: "index",
+  components: { XTable },
   data() {
     return {
       list: [],
       columns: [
         {
-          title: '名称',
-          field: 'name',
-          filterType: 'item',
+          title: "名称",
+          field: "name",
+          filterType: "item",
           sortable: true
         },
         {
-          title: '年龄',
-          field: 'age',
-          filterType: 'item',
+          title: "年龄",
+          field: "age",
+          filterType: "item",
           sortable: true
         },
         {
-          title: '时间',
-          field: 'time',
-          filterType: 'item',
+          title: "时间",
+          field: "time",
+          filterType: "item",
           sortable: true
         }
       ]
@@ -67,9 +67,9 @@ export default {
     });
   },
   methods: {
-    ...mapActions('home', ['getHomeData', 'queryList']),
+    ...mapActions("home", ["getHomeData", "queryList"]),
     test() {
-      const obj = {a: 1, b: 2};
+      const obj = { a: 1, b: 2 };
       console.log(obj?.a, 2 ** 3);
       this.getHomeData({
         loadingTarget: this.$refs.container
@@ -81,7 +81,7 @@ export default {
         PubSub.$emit(TopicsEnum.test, data);
       });
     },
-    getList({pageStart, pageSize, searchKey, searchValue, ascOrDesc, orderBy}) {
+    getList({ pageStart, pageSize, searchKey, searchValue, ascOrDesc, orderBy }) {
       return this.queryList({
         pageStart,
         pageSize,
@@ -91,7 +91,7 @@ export default {
         orderBy
       });
     },
-    getColumnData({searchKey, searchValue}) {
+    getColumnData({ searchKey, searchValue }) {
       console.log(searchKey, searchValue);
       return new Promise(resolve => {
         resolve([1, 2, 3, 4, 5]);
