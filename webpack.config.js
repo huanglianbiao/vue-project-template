@@ -5,6 +5,7 @@ const apiMocker = require("mocker-api");
 
 const common = require("./build/webpack.base.config");
 const outputPath = path.resolve(__dirname, "dist");
+const lessVariablesPath = path.resolve("./src/assets/style/variables/*.less");
 
 module.exports = merge(common, {
   mode: "development",
@@ -41,6 +42,12 @@ module.exports = merge(common, {
               lessOptions: {
                 javascriptEnabled: true
               }
+            }
+          },
+          {
+            loader: "style-resources-loader",
+            options: {
+              patterns: [lessVariablesPath]
             }
           }
         ]

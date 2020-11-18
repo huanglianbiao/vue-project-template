@@ -1,111 +1,66 @@
 <template>
-  <div ref="main" class="main">
-    <div ref="container" style="height: 500px">
-      <h3>前端筛选、排序、分页</h3>
-      <XTable :remote="false" :multiple="false" :table-list="list" :columns="columns"></XTable>
-    </div>
-
-    <div ref="container2" style="height: 500px">
-      <h3>后端筛选、排序、分页</h3>
-      <XTable
-        :remote="true"
-        :multiple="false"
-        :fetch="getList"
-        :columns="columns"
-        :fetch-column="getColumnData"
-      ></XTable>
-    </div>
-  </div>
+  <el-container>
+    <el-header>
+      <div class="logo">Date Assets</div>
+      <el-menu :default-active="$route.name" mode="horizontal" @select="menuSelect">
+        <template v-for="item in menuList">
+          <el-menu-item :index="item.name" :key="item.name">
+            {{ item.title }}
+          </el-menu-item>
+        </template>
+      </el-menu>
+    </el-header>
+    <el-main>
+      <router-view />
+    </el-main>
+  </el-container>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import PubSub, { TopicsEnum } from "@utils/PubSub";
-import XTable from "@components/XTable";
-
 export default {
   name: "index",
-  components: { XTable },
   data() {
     return {
-      list: [],
-      columns: [
+      activeIndex: "overview",
+      menuList: [
         {
-          title: "名称",
-          field: "name",
-          filterType: "item",
-          sortable: true
+          title: "概览",
+          name: "overview"
         },
         {
-          title: "年龄",
-          field: "age",
-          filterType: "item",
-          sortable: true
+          title: "数据",
+          name: "data"
         },
         {
-          title: "时间",
-          field: "time",
-          filterType: "item",
-          sortable: true
+          title: "与我",
+          name: "self"
         }
       ]
     };
   },
-  computed: {
-    ...mapState({
-      homeData: state => state.home.homeData
-    })
-  },
-  mounted() {
-    this.test();
-    PubSub.$on(TopicsEnum.test, data => {
-      console.log("PubSub-test: ", data);
-    });
-
-    this.$once("hook:beforeDestroy", () => {
-      PubSub.$off(TopicsEnum.test);
-    });
-  },
   methods: {
-    ...mapActions("home", ["getHomeData", "queryList"]),
-    test() {
-      const obj = { a: 1, b: 2 };
-      console.log(obj?.a, 2 ** 3);
-      this.getHomeData({
-        loadingTarget: this.$refs.container
-      }).then(data => {
-        this.list = data;
-        console.log(data);
-        console.log(this.homeData);
-
-        PubSub.$emit(TopicsEnum.test, data);
-      });
-    },
-    getList({ pageStart, pageSize, searchKey, searchValue, ascOrDesc, orderBy }) {
-      return this.queryList({
-        pageStart,
-        pageSize,
-        searchKey,
-        searchValue,
-        ascOrDesc,
-        orderBy
-      });
-    },
-    getColumnData({ searchKey, searchValue }) {
-      console.log(searchKey, searchValue);
-      return new Promise(resolve => {
-        resolve([1, 2, 3, 4, 5]);
-      });
+    menuSelect(name) {
+      this.$router.push({ name });
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.main {
-  padding: 20px;
+.el-container {
   height: 100%;
-  background-color: #eee;
-  overflow: auto;
+
+  .el-header {
+    background-color: #fff;
+    display: flex;
+    flex-direction: revert;
+    align-items: center;
+
+    .logo {
+      width: 200px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
 }
 </style>

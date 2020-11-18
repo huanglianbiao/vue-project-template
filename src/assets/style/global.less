@@ -1,0 +1,150 @@
+
+body {
+  background-color: @hs-primary-0;
+}
+
+// 为了检测到正确的滚出高度
+html,
+body {
+  height: auto;
+}
+
+* {
+  outline: none;
+}
+
+// 无数据
+.hs-no-data {
+  width: 100%;
+  color: #909399;
+  font-size: 12px;
+  text-align: center;
+}
+
+.custom-dialog-btns-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .el-button {
+    margin-left: 20px;
+    padding: 7px 15px;
+    font-size: 12px;
+    border-radius: 3px;
+
+    &:first-child{
+      margin-left: 0;
+    }
+  }
+}
+
+.el-radio-button__inner {
+  user-select: none;
+}
+
+// 配置页面
+
+.config-box {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.el-form {
+  .hs-form-table {
+    margin-bottom: 18px;
+  }
+}
+
+// 字体
+.font-primary-color {
+  color: @hs-primary-color;
+}
+
+.font-success-color {
+  color: @hs-success-color;
+}
+
+.font-warning-color {
+  color: @hs-warning-color;
+}
+
+.font-danger-color {
+  color: @hs-danger-color;
+}
+
+.font-blue-color {
+  color: @hs-data-color;
+}
+
+.font-info-color {
+  color: @hs-info-color;
+}
+
+
+/*
+ Ant-Design-vue
+*/
+
+.ant-notification {
+  z-index: 3000;
+}
+
+.auto-complete-popper {
+  width: auto !important;
+}
+
+// 解决el-drawer打开后自动focus问题
+.custom-drawer.no-title {
+  .el-drawer__header {
+    height: 0;
+    padding: 0;
+    margin: 0;
+
+    .el-drawer__close-btn {
+      margin-top: 30px;
+      z-index: 9999;
+    }
+  }
+
+  .el-drawer__body {
+    padding: 20px;
+  }
+}
+
+.hs-icon {
+  font-size: inherit;
+}
+
+.el-table th.el-table-column--selection > .cell {
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.hs-link {
+  color: @hs-primary-color;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+/* 定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸 */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 12px;
+  background-color: rgba(206, 206, 206, 0.3);
+}
+
+/* 定义滚动条轨道 内阴影+圆角 */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/* 定义滑块 内阴影+圆角 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(195, 195, 195);
+  background-color: rgba(206, 206, 206, 0.6);
+}
+

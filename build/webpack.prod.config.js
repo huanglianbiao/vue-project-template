@@ -9,6 +9,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 const outputPath = path.resolve(__dirname, "../dist-DA");
+const lessVariablesPath = path.resolve("../src/assets/style/variables/*.less");
 
 module.exports = merge(common, {
   mode: "production",
@@ -64,6 +65,12 @@ module.exports = merge(common, {
               lessOptions: {
                 javascriptEnabled: true
               }
+            }
+          },
+          {
+            loader: "style-resources-loader",
+            options: {
+              patterns: [lessVariablesPath]
             }
           }
         ]

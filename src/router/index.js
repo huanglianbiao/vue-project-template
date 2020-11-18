@@ -8,7 +8,25 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: () => import(/* webpackChunkName: "route-index" */ "@views/index")
+      component: () => import(/* webpackChunkName: "route-index" */ "@views/index"),
+      redirect: "overview",
+      children: [
+        {
+          path: "overview",
+          name: "overview",
+          component: () => import(/* webpackChunkName: "route-overview" */ "@views/Overview")
+        },
+        {
+          path: "data",
+          name: "data",
+          component: () => import(/* webpackChunkName: "route-data" */ "@views/Data")
+        },
+        {
+          path: "self",
+          name: "self",
+          component: () => import(/* webpackChunkName: "route-self" */ "@views/Self")
+        }
+      ]
     }
   ]
 });
