@@ -2,7 +2,12 @@
   <div ref="main" class="main">
     <div ref="container" style="height: 500px">
       <h3>前端筛选、排序、分页</h3>
-      <XTable :remote="false" :multiple="false" :table-list="list" :columns="columns"></XTable>
+      <XTable :remote="false" :multiple="false" :table-list="list" :columns="columns">
+        <!-- 第一种写法       -->
+        <template v-slot:operate="{ row }"></template>
+        <!--第二种写法-->
+        <div slot="operate" slot-scope="{ row }"></div>
+      </XTable>
     </div>
 
     <div ref="container2" style="height: 500px">
@@ -47,6 +52,10 @@ export default {
           field: "time",
           filterType: "item",
           sortable: true
+        },
+        {
+          title: "操作",
+          slotName: "operate"
         }
       ]
     };
