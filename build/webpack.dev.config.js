@@ -1,10 +1,9 @@
 const webpack = require("webpack");
 const { merge } = require("webpack-merge");
-const path = require("path");
 const apiMocker = require("mocker-api");
 
-const common = require("./build/webpack.base.config");
-const outputPath = path.resolve(__dirname, "dist");
+const common = require("./webpack.base.config");
+const { rootPath, outputPath, MockPath } = require("./path");
 
 module.exports = merge(common, {
   mode: "development",
@@ -14,17 +13,24 @@ module.exports = merge(common, {
     filename: "[name].[hash].js"
   },
   devServer: {
-    contentBase: path.resolve(__dirname, "../"),
+    contentBase: rootPath,
+    publicPath: "/",
     hot: true,
     host: "0.0.0.0",
+    // port: 5000,
     quiet: true,
     historyApiFallback: true, // 当vue-router为history模式时，设置为true
     before(app) {
-      apiMocker(app, path.resolve("./mock/index.js"), {
+      apiMocker(app, MockPath, {
         changeHost: true
       });
     },
-    proxy: {}
+    proxy: {
+      "/web": {
+        // target: `http://192.168.1.1`,
+        changeOrigin: true
+      }
+    }
   },
   module: {
     rules: [
@@ -43,7 +49,17 @@ module.exports = merge(common, {
               }
             }
           }
+          // {
+          //   loader: "style-resources-loader",
+          //   options: {
+          //     // patterns: [lessVariablesPath]
+          //   }
+          // }
         ]
+      },
+      {
+        test: /\.sass$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   },

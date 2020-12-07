@@ -7,14 +7,16 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const MinCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const outputPath = path.resolve(__dirname, "../dist-DA");
+const { outputPath, staticPath, distStaticPath } = require("./path");
 
 module.exports = merge(common, {
   mode: "production",
   output: {
     path: outputPath,
-    filename: "[name].[contenthash].js"
+    filename: "[name].[contenthash].js",
+    publicPath: "/"
   },
   optimization: {
     minimizer: [
@@ -50,10 +52,20 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.(c|le)ss/,
+        test: /\.css/,
         use: [
           MinCssExtractPlugin.loader,
           // "style-loader",
+          {
+            loader: "css-loader",
+            options: {}
+          }
+        ]
+      },
+      {
+        test: /\.less/,
+        use: [
+          { loader: "style-loader" },
           {
             loader: "css-loader",
             options: {}
@@ -66,17 +78,41 @@ module.exports = merge(common, {
               }
             }
           }
+          // {
+          //   loader: "style-resources-loader",
+          //   options: {
+          //     patterns: [lessVariablesPath]
+          //   }
+          // }
+        ]
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader"
+          },
+          {
+            loader: "sass-loader"
+          }
         ]
       }
     ]
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
-    new CleanWebpackPlugin(),
+    // 拷贝静态文件
+    // new CopyWebpackPlugin({
+    //   patterns: [{ from: staticPath, to: distStaticPath }]
+    // }),
 
     new MinCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
       chunkFilename: "css/[id].[contenthash].css"
-    })
+    }),
+    new CleanWebpackPlugin()
   ]
 });

@@ -1,15 +1,8 @@
 const webpack = require("webpack");
-const path = require("path");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
-// const { VueLoaderPlugin } = require("vue-loader")
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const entryPath = path.resolve(__dirname, "../src/index.js");
-const indexHtmlPath = path.resolve(__dirname, "../index.html");
-const srcPath = path.resolve(__dirname, "../src");
-const componentsPath = path.resolve(__dirname, "../src/components");
-const viewsPath = path.resolve(__dirname, "../src/views");
-const utilsPath = path.resolve(__dirname, "../src/utils");
+const { indexHtmlPath, componentsPath, viewsPath, utilsPath, entryPath, srcPath } = require("./path");
 
 module.exports = {
   entry: entryPath,
