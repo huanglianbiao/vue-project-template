@@ -14,6 +14,14 @@ module.exports = function(api) {
         libraryName: "ant-design-vue",
         style: true
       }
+    ],
+    [
+      "import",
+      {
+        libraryName: "vxe-table",
+        style: true // 样式是否也按需加载
+      },
+      "vxe-table"
     ]
   ];
   api.cache(true);
