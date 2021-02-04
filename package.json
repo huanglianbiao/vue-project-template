@@ -68,7 +68,7 @@
     "js-cookie": "^2.2.1",
     "vue-router": "^3.4.8",
     "vuex": "^3.5.1",
-    "vxe-table": "^2.9.26",
-    "xe-utils": "^2.8.1"
+     "vxe-table": "^2.9.26",
+     "xe-utils": "^2.8.1"
   }
 }

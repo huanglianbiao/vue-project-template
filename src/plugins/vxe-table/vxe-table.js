@@ -3,7 +3,8 @@ import Vue from "vue";
 import XEUtils from "xe-utils";
 // import VXETable from "vxe-table";
 // import "vxe-table/lib/style.css";
-
+// "vxe-table": "^2.9.26",
+// "xe-utils": "^2.8.1"
 // Vue.use(VXETable);
 
 import { VXETable, Table, Header, Column, Grid, Pager, Select, Icon } from "vxe-table";
