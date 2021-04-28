@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const path = require("path");
 const { merge } = require("webpack-merge");
 const common = require("./webpack.base.config");
@@ -109,6 +110,10 @@ module.exports = merge(common, {
     //   patterns: [{ from: staticPath, to: distStaticPath }]
     // }),
 
+    // 解决vender后面的hash每次都改变( 因为正常情况下module.id会随着加载顺序的改变而改变, vendor bundle 会随着自身的 module.id 的变化，而发生变化);
+    // 推荐用于生成环境     
+    new webpack.HashedModuleIdsPlugin(),
+    
     new MinCssExtractPlugin({
       filename: "css/[name].[contenthash].css",
       chunkFilename: "css/[id].[contenthash].css"
