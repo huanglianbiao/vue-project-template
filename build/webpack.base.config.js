@@ -29,7 +29,7 @@ module.exports = {
       },
       // 处理图片
       {
-        test: /\.(pgn|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg)$/,
         use: [
           {
             loader: "url-loader",
@@ -52,7 +52,7 @@ module.exports = {
     ]
   },
   plugins: [
-    // 解决vender后面的hash每次都改变
+    // 解决vender后面的hash每次都改变( 因为正常情况下module.id会随着加载顺序的改变而改变, vendor bundle 会随着自身的 module.id 的变化，而发生变化)
     new webpack.HashedModuleIdsPlugin(),
 
     new VueLoaderPlugin(),
