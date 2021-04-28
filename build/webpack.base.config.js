@@ -1,4 +1,3 @@
-const webpack = require("webpack");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -52,9 +51,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // 解决vender后面的hash每次都改变( 因为正常情况下module.id会随着加载顺序的改变而改变, vendor bundle 会随着自身的 module.id 的变化，而发生变化)
-    new webpack.HashedModuleIdsPlugin(),
-
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: indexHtmlPath
